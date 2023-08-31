@@ -1,0 +1,3 @@
+import stampa
+
+stampa.Plot()
