@@ -15,8 +15,8 @@ class Plot:
 
     def __init__(self):
 
-        self.config = dict({'scrollZoom': True,
-            'modeBarButtonsToRemove': ['zoom']})
+        self.config = {'scrollZoom': True,
+                       'modeBarButtonsToRemove': ['zoom']}
 
         self.fig = make_subplots(rows=2, cols=1, shared_xaxes=True, 
                     vertical_spacing=0.06, subplot_titles=('OHLC', 'Volume'), 
@@ -31,10 +31,6 @@ class Plot:
         self.fig.add_trace(go.Candlestick(x=df_ohlc.index, open=df_ohlc['Open'], high=df_ohlc['High'],
                 low=df_ohlc['Low'], close=df_ohlc['Close'], name="ETHBTC", showlegend=False), 
                 row=1, col=1)
-        self.fig.update_layout(
-
-)
-
 
         for indicator, params in indicator_ohlc.items():
             self.fig.add_trace(
@@ -62,7 +58,6 @@ class Plot:
                                 )
         
         self.fig.update_layout(xaxis_rangeslider_visible=False,
-
                             width=1300,
                             height=1000)
         self.fig.show(config=self.config)
