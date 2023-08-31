@@ -9,21 +9,20 @@ plot = stampa.Plot()
 table = 'spy'
 
 with my_con.connect(**sm.config(db='finance')) as cnx:
-
-    query = f"""SELECT * FROM finance.{table}"""
-
+    header = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
+    query = f"""SELECT {", ".join(header)} FROM finance.{table}"""
+    print(query)
     crs = cnx.cursor()
     crs.execute(query)
     data = crs.fetchall()
-
-    query = f"""DESCRIBE finance.{table}"""
-
-    crs = cnx.cursor()
-    crs.execute(query)
-    header = crs.fetchall()
-
-    header = [name[0] for name in header[1:]]
-
+    
+    print(f'header:\n\n{header}')
+    for _ in data[:20]: print(_)
     df = pd.DataFrame({key : [val[indx] for val in data] for indx, key in enumerate(header)})
 
-    plot(indicator_ohlc= [ta.sma], df_ohlc= df)
+    print(df.loc[:20])
+    df.index = pd.DatetimeIndex(df['Date'], yearfirst= True)
+    print(df.index)
+
+
+    plot(indicator_ohlc= {ta.sma : df['Close']}, df_ohlc= df)
