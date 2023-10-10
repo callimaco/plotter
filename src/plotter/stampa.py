@@ -2,11 +2,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from typing import Any, Union, List, Dict, Optional
 
-import json
-import datetime
-
 import pandas as pd
-import pandas_ta
+
 
 
 from typing import Any, List, Optional, Callable
@@ -31,7 +28,9 @@ class Plot:
         self.fig.add_trace(go.Candlestick(x=df_ohlc.index, open=df_ohlc['Open'], high=df_ohlc['High'],
                 low=df_ohlc['Low'], close=df_ohlc['Close'], name="ETHBTC", showlegend=False), 
                 row=1, col=1)
-
+        
+        # this can handle only pairs of one indicato and one data
+        # it's also unhable to manage plots that rappresents a painted area
         for indicator, params in indicator_ohlc.items():
             self.fig.add_trace(
                               go.Scatter(
@@ -43,7 +42,7 @@ class Plot:
                               row=1,
                               col=1
                               )
-            
+        # same as above
         if volume is not None:
             for indicator in indicator_vol:
                 self.fig.add_trace(
